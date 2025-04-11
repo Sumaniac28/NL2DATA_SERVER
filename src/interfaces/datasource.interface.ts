@@ -1,4 +1,4 @@
-import { IDataSource } from './auth.interface';
+import { IDataSource } from '@/interfaces/auth.interface';
 
 export interface IDataSourceDocument {
   id?: string;

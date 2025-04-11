@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { Datasource } from './datasource.entity';
+import { Datasource } from '@/entities/datasource.entity';
 
 @Entity()
 @Index(['datasourceId'])
