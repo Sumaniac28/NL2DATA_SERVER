@@ -11,6 +11,7 @@ export const envConfig = cleanEnv(process.env, {
   DB_USERNAME: str(),
   DB_PASSWORD: str(),
   DB_DATABASE: str(),
+  ENCRYPTION_SECRET: str(),
   SECRET_KEY_ONE: str(),
   SECRET_KEY_TWO: str(),
   REACT_URL: str(),

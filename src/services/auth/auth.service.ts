@@ -6,6 +6,8 @@ import { ValidationService } from '@/services/auth/validation.service';
 import { generateAccessToken } from '@/utils/token-util';
 import { hashPassword, verifyPassword } from '@/utils/utils';
 import { GraphQLError } from 'graphql';
+import { DatasourceService } from '../DataSourceService';
+import { getPostgreSQLCollections } from '../PGConnection';
 
 export class AuthService {
   static async register(input: IAuth, context: AppContext): Promise<IAuthPayload> {
@@ -60,24 +62,23 @@ export class AuthService {
       throw new GraphQLError('Invalid credentials');
     }
 
-    // const result: IDataSource[] = await DatasourceService.getDataSources(`${user.id}`);
-    // let activeProject: IActiveProject = {} as IActiveProject;
-    // let collections: string[] = [];
-    // if (result.length > 0) {
-    //   activeProject = {
-    //     projectId: result[0].projectId,
-    //     type: result[0].type
-    //   };
-    //   if (activeProject.type === 'postgresql') {
-    //     collections = await getPostgreSQLCollections(result[0].projectId);
-    //   }
-    // }
+    const result: IDataSource[] = await DatasourceService.getDataSources(`${user.id}`);
+    let activeProject: IActiveProject = {} as IActiveProject;
+    let collections: string[] = [];
+    if (result.length > 0) {
+      activeProject = {
+        projectId: result[0].projectId,
+        type: result[0].type
+      };
+      if (activeProject.type === 'postgresql') {
+        collections = await getPostgreSQLCollections(result[0].projectId);
+      }
+    }
 
     const payload: TokenPayload = {
       userId: user.id,
       email: user.email,
-      // activeProject
-      activeProject: {} as IActiveProject
+      activeProject
     };
     const accessToken: string = generateAccessToken(payload);
     req.session = {
@@ -85,10 +86,8 @@ export class AuthService {
     };
 
     return {
-      // projectIds: result,
-      // collections,
-      projectIds: [],
-      collections: [],
+      projectIds: result,
+      collections,
       user: {
         id: user.id,
         email: user.email
