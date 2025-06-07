@@ -16,5 +16,6 @@ export const envConfig = cleanEnv(process.env, {
   SECRET_KEY_TWO: str(),
   REACT_URL: str(),
   JWT_ACCESS_SECRET: str(),
-  DB_SSL: bool({ default: false })
+  DB_SSL: bool({ default: false }),
+  CLAUDE_API_KEY: str(),
 });
