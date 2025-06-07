@@ -3,10 +3,12 @@ import { authSchema } from '@/graphql/schemas/auth';
 import { coreDataSourceSchema } from '@/graphql/schemas/datasource';
 import { postgresqlCollectionSchema } from '@/graphql/schemas/pgCollection';
 import { aiChartSchema } from '@/graphql/schemas/aiChart';
+import { chartInfoSchema } from '@/graphql/schemas/chartInfo';
 
 export const mergedGQLSchema = mergeTypeDefs([
   authSchema,
   coreDataSourceSchema,
   postgresqlCollectionSchema,
-  aiChartSchema
+  aiChartSchema,
+  chartInfoSchema
 ]);
