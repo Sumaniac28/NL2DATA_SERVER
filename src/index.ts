@@ -82,7 +82,7 @@ async function bootstrap() {
   );
 
   app.get('/health', (_req: Request, res: Response) => {
-    res.status(200).send('DataViz service is healthy and OK.');
+    res.status(200).send('NL2DATA server is healthy and OK.');
   });
 
   try {
