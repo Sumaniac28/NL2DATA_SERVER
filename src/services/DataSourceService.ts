@@ -9,10 +9,20 @@ export class DatasourceService {
   static async createNewDataSource(data: IDataSourceDocument): Promise<IDataSourceDocument> {
     try {
       const datasourceRepository = AppDataSource.getRepository(Datasource);
+      const existing = await datasourceRepository.findOne({
+        where: {
+          userId: data.userId,
+          projectId: data.projectId
+        }
+      });
+      if (existing) {
+        throw new GraphQLError('This user already has a datasource with the same projectId.');
+      }
+
       const datasource = new Datasource();
 
       datasource.userId = data.userId!;
-      datasource.projectId = data.projectId;
+      datasource.projectId = data.projectId.trim();
       datasource.type = data.type!;
       datasource.databaseUrl = data.databaseUrl!;
       datasource.port = data.port!;

@@ -48,6 +48,12 @@ export class ChartInfo {
   @Column('text')
   chartData: string;
 
+  //   @Column({ type: 'jsonb' })
+  // queryData: any;
+
+  // @Column({ type: 'jsonb' })
+  // chartData: any;
+
   @Column()
   sql: string;
 

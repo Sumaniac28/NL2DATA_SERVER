@@ -1,9 +1,8 @@
 import { decrypt, encrypt } from '@/utils/crypto-utils';
 import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+@Index(['userId', 'projectId'], { unique: true })
 @Entity()
-@Index(['projectId'])
-@Index(['userId'])
 export class Datasource {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -11,7 +10,7 @@ export class Datasource {
   @Column()
   userId: string;
 
-  @Column({ unique: true })
+  @Column()
   projectId: string;
 
   @Column({ name: 'databaseUrl', nullable: true })

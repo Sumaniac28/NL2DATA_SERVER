@@ -24,8 +24,8 @@ export const AuthResolver = {
           id: req.currentUser?.userId,
           email: req.currentUser?.email
         },
-        projectIds: [],
-        collections: []
+        projectIds: result,
+        collections
       };
     }
   },
