@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Datasource } from '@/entities/datasource.entity';
 
-@Entity()
+@Entity({ name: 'chart_info', schema: 'public' })
 @Index(['datasourceId'])
 @Index(['userId'])
 export class ChartInfo {

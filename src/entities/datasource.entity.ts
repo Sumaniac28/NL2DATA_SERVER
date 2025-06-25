@@ -2,7 +2,7 @@ import { decrypt, encrypt } from '@/utils/crypto-utils';
 import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Index(['userId', 'projectId'], { unique: true })
-@Entity()
+@Entity({ name: 'datasource', schema: 'public' })
 export class Datasource {
   @PrimaryGeneratedColumn('uuid')
   id: string;

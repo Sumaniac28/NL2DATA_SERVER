@@ -16,7 +16,10 @@ export async function testPostgreSQLConnection(data: IDataSourceDocument): Promi
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
-    maxUses: 7500
+    maxUses: 7500,
+    ssl:{
+      rejectUnauthorized: false 
+    }
   });
 
   try {

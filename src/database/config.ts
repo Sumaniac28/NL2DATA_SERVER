@@ -14,9 +14,12 @@ const databaseConfig: DataSourceOptions = {
   database: envConfig.DB_DATABASE,
   synchronize: false,
   logging: false,
-  connectTimeoutMS: 0,
   entities: [User, ChartInfo, Datasource],
   migrations: [join(__dirname, '../database/migrations/**/*{.ts,.js}')],
+   extra: {
+    connectionTimeoutMillis: 10000,
+    max: 5 
+  },
   ssl: envConfig.DB_SSL
     ? {
         rejectUnauthorized: false
