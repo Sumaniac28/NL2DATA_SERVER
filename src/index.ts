@@ -63,15 +63,15 @@ async function bootstrap() {
     })
   );
   const corsOptions = {
-    origin: [envConfig.REACT_URL],
+    origin: 'https://nl2data.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   };
   app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
 
   app.use(
     '/graphql',
-    cors(corsOptions),
     json({ limit: '50mb' }),
     urlencoded({ extended: true, limit: '50mb' }),
     expressMiddleware(server, {
