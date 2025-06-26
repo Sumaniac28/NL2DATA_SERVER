@@ -68,10 +68,10 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   };
   app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
 
   app.use(
     '/graphql',
-    cors(corsOptions),
     json({ limit: '50mb' }),
     urlencoded({ extended: true, limit: '50mb' }),
     expressMiddleware(server, {
