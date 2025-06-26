@@ -7,20 +7,23 @@ import { GraphQLError } from 'graphql';
 
 export class DatasourceService {
   static async createNewDataSource(data: IDataSourceDocument): Promise<IDataSourceDocument> {
+    const datasourceRepository = AppDataSource.getRepository(Datasource);
+
     try {
-      const datasourceRepository = AppDataSource.getRepository(Datasource);
-      const existing = await datasourceRepository.findOne({
-        where: {
-          userId: data.userId,
-          projectId: data.projectId
-        }
-      });
-      if (existing) {
+      const [existingByProject, existingByUser] = await Promise.all([
+        datasourceRepository.findOne({
+          where: { userId: data.userId, projectId: data.projectId }
+        }),
+        datasourceRepository.count({
+          where: { userId: data.userId }
+        })
+      ]);
+
+      if (existingByProject) {
         throw new GraphQLError('This user already has a datasource with the same projectId.');
       }
 
       const datasource = new Datasource();
-
       datasource.userId = data.userId!;
       datasource.projectId = data.projectId.trim();
       datasource.type = data.type!;
@@ -29,11 +32,11 @@ export class DatasourceService {
       datasource.databaseName = data.databaseName!;
       datasource.username = data.username!;
       datasource.password = data.password!;
+      datasource.isDefault = existingByUser === 0;
 
-      const result = await datasourceRepository.save(datasource);
-      return result;
+      return await datasourceRepository.save(datasource);
     } catch (error: any) {
-      throw new GraphQLError(error?.message);
+      throw new GraphQLError(error?.message || 'Failed to create datasource.');
     }
   }
 

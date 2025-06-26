@@ -11,11 +11,16 @@ export const envConfig = cleanEnv(process.env, {
   DB_USERNAME: str(),
   DB_PASSWORD: str(),
   DB_DATABASE: str(),
+  TEST_DB_HOST: str(),
+  TEST_DB_PORT: port(),
+  TEST_DB_USERNAME: str(),
+  TEST_DB_PASSWORD: str(),
+  TEST_DB_DATABASE: str(),
   ENCRYPTION_SECRET: str(),
   SECRET_KEY_ONE: str(),
   SECRET_KEY_TWO: str(),
   REACT_URL: str(),
   JWT_ACCESS_SECRET: str(),
   DB_SSL: bool({ default: false }),
-  CLAUDE_API_KEY: str(),
+  CLAUDE_API_KEY: str()
 });

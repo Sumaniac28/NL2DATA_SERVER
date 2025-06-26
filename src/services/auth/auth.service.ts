@@ -1,13 +1,15 @@
 import AppDataSource from '@/database/config';
+import { Datasource } from '@/entities/datasource.entity';
 import { User } from '@/entities/user.entity';
 import { AppContext, IActiveProject, IAuth, IDataSource, TokenPayload } from '@/interfaces/auth.interface';
-import { IAuthPayload } from '@/interfaces/datasource.interface';
+import { IAuthPayload, IDataSourceDocument } from '@/interfaces/datasource.interface';
 import { ValidationService } from '@/services/auth/validation.service';
 import { generateAccessToken } from '@/utils/token-util';
 import { hashPassword, verifyPassword } from '@/utils/utils';
 import { GraphQLError } from 'graphql';
 import { DatasourceService } from '../DataSourceService';
 import { getPostgreSQLCollections } from '../PGConnection';
+import { envConfig } from '@/config/env.config';
 
 export class AuthService {
   static async register(input: IAuth, context: AppContext): Promise<IAuthPayload> {
@@ -23,6 +25,19 @@ export class AuthService {
       password: hashedPassword
     });
     const userData = await userRepository.save(user);
+
+    const data: IDataSourceDocument = {
+      userId: userData.id,
+      projectId: 'test-project',
+      type: 'test',
+      databaseUrl: envConfig.TEST_DB_HOST,
+      port: envConfig.TEST_DB_PORT.toString(),
+      databaseName: envConfig.TEST_DB_DATABASE,
+      username: envConfig.TEST_DB_USERNAME,
+      password: envConfig.TEST_DB_PASSWORD
+    };
+
+    await DatasourceService.createNewDataSource(data);
     const payload: TokenPayload = {
       userId: userData.id,
       email: userData.email,

@@ -71,6 +71,9 @@ export class Datasource {
   @Column()
   type: string;
 
+  @Column({default: false})
+  isDefault: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 
