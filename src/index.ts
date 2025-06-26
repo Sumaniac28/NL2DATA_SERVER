@@ -63,7 +63,7 @@ async function bootstrap() {
     })
   );
   const corsOptions = {
-    origin: 'https://nl2data.vercel.app/',
+    origin: [envConfig.REACT_URL],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   };
